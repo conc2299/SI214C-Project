@@ -3,14 +3,26 @@ Solving time-harmonic Maxwell's Equation using finite element method
 
 Authors: Yikai Liu, ZhiYuan Cheng, QiZhang He.
 
-## Weak formular of time-harmonic Maxwell's Equation
+## Weak formula of time-harmonic Maxwell's Equation
+Note: all fields below are complex valued functions.(i.e. $\mathbb{R}^3\rightarrow \mathbb{C}$)
 ### Without free charge
 $$
-    \delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}}
+    \Delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}}
+$$
+In one direction (e.g. $x$)
+$$
+    \Delta E_x+\omega^2\tilde{\mu}\tilde{\epsilon}E_x = j\omega\tilde{\mu}J_{\alpha x}
+$$
+weak form
+$$
+\begin{aligned}
+    \int_{\Omega}(\Delta E_x+\omega^2\tilde{\mu}\tilde{\epsilon}E_x)vd\omega&=j\omega\tilde{\mu}\int_{\Omega}J_{\alpha x}vd\omega \\
+    \int_{\Omega}\nabla E_x\cdot\nabla vd\omega - \int_{\Omega}\nabla\cdot(v\nabla E_x)d\omega+ \omega^2\tilde{\mu}\tilde{\epsilon}\int_{\Omega}E_xvd\omega &= j\omega\tilde{\mu}\int_{\Omega}J_{ax}vd\omega\\
+\end{aligned}
 $$
 ### With free charge
 $$
-    \delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}} + \nabla(\frac{\rho}{\epsilon})
+    \Delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}} + \nabla(\frac{\rho}{\epsilon})
 $$
 
 # TODO
