@@ -3,6 +3,16 @@ Solving time-harmonic Maxwell's Equation using finite element method
 
 Authors: Yikai Liu, ZhiYuan Cheng, QiZhang He.
 
+## Weak formular of time-harmonic Maxwell's Equation
+### Without free charge
+$$
+    \delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}}
+$$
+### With free charge
+$$
+    \delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}} + \nabla(\frac{\rho}{\epsilon})
+$$
+
 # TODO
 1. Tetrahedra element in 3D space 
 2. Libraries
