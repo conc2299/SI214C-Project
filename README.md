@@ -18,6 +18,7 @@ $$
 \begin{aligned}
     \int_{\Omega}(\Delta E_x+\omega^2\tilde{\mu}\tilde{\epsilon}E_x)vd\omega&=j\omega\tilde{\mu}\int_{\Omega}J_{\alpha x}vd\omega \\
     \int_{\Omega}\nabla E_x\cdot\nabla vd\omega - \int_{\Omega}\nabla\cdot(v\nabla E_x)d\omega+ \omega^2\tilde{\mu}\tilde{\epsilon}\int_{\Omega}E_xvd\omega &= j\omega\tilde{\mu}\int_{\Omega}J_{ax}vd\omega\\
+    \int_{\Omega}\nabla E_x\cdot\nabla vd\omega-\int_{\partial\Omega}v\nabla E_xd\omega+\omega^2\tilde{\mu}\tilde{\epsilon}\int_{\Omega}E_xvd\omega&=j\omega\tilde{\mu}\int_{\Omega}J_{ax}vd\omega\\
 \end{aligned}
 $$
 ### With free charge
@@ -26,7 +27,8 @@ $$
 $$
 
 # TODO
-1. Tetrahedra element in 3D space 
+1. Tetrahedra element in 3D space. Maybe we can solve in simple 2D space first
+    - 2D 1st-order first kind $\text{N\'ed\'elec}$ element. $H(curl)$-comforming
 2. Libraries
     - Matrix solving (Eigen, SuiteSparse)
     - Visualization
@@ -39,4 +41,8 @@ $$
                 - Tetrahedra
             - Sphere (necessary)
     - Constraint (the conditions that EM-fields must satisfy at certain points (usually at boundary))
-    - Element ()
+    - Element 
+4. Organization
+    - Visualization (Zhiyuan Cheng)
+    - Solver (QiZhang He)
+    - Problem formulation(Yikai Liu)
