@@ -4,7 +4,7 @@ Solving time-harmonic Maxwell's Equation using finite element method
 Authors: Yikai Liu, ZhiYuan Cheng, QiZhang He.
 
 ## Weak formula of time-harmonic Maxwell's Equation
-Note: all fields below are complex valued functions.(i.e. $\mathbb{R}^3\rightarrow \mathbb{C}$)
+Note: all fields below are complex valued functions.(i.e. $\mathbb{R}^2\rightarrow \mathbb{C}$)
 ### Without free charge
 $$
     \Delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}}
@@ -43,7 +43,7 @@ $$
     - Constraint (the conditions that EM-fields must satisfy at certain points (usually at boundary))
     - Element 
 4. Organization
-    - Visualization (Zhiyuan Cheng)
-    - Solver (QiZhang He)
+    - Visualization (QiZhang He)
+    - Solver (Zhiyuan Cheng)
     - Problem formulation(Yikai Liu)
     - add nothing

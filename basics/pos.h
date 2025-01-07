@@ -1,6 +1,12 @@
 #ifndef POS_H
 #define POS_H
 
+struct POS2D
+{
+    double x;
+    double y;
+};
+
 struct POS3D
 {
     double x;
