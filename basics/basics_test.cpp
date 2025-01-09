@@ -1,7 +1,16 @@
 #include "basics/vec.hpp"
+#include "basics/pos.hpp"
 
 #include <complex>
 #include <iostream>
+
+void test_pos()
+{
+    Pos<double,3> p1(2,3,4);
+    Pos<double,2> p2(3,4);
+    Pos<double,3> p = p1 + p2;
+    std::cout << p[0] << p[1] << p[2] << std::endl;
+}
 
 int main()
 {
@@ -18,4 +27,5 @@ int main()
     std::cout << v2[0] << v2[1] << std::endl;
     std::cout << v3 << std::endl;
     std::cout << v4 << std::endl;
+    test_pos();
 }

@@ -2,20 +2,23 @@
 #define CUBOID_H
 
 #include "region.h"
+#include "basics/global.h"
 
 /*
     Cuboid 
 */
-class Cuboid: public Region
+class Cuboid2D: public Region2D
 {
 public:
-    Cuboid(POS3D corner1, POS3D corner2, double permeability, double permitivity);
-    Cuboid(POS3D corner, double length, double width, double height, double permeability, double permitivity);
-    bool is_interior(POS3D p);
-    std::optional<POS3D> get_boundary_between(POS3D p1, POS3D p2);
+    Cuboid2D(Pos2D corner1, Pos2D corner2, double permeability, double permitivity);
+    Cuboid2D(Pos2D corner, double length, double width, double permeability, double permitivity);
+    bool is_interior(Pos2D p);
+    std::optional<Pos2D> get_boundary_between(Pos2D p1, Pos2D p2);
+    double get_minimal_interval();
+    std::vector<Pos2D> get_vertices();
 private:
-    POS3D corner1;
-    POS3D corner2;
+    Pos2D corner1;
+    Pos2D corner2;
 };
 
 #endif

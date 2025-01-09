@@ -1,21 +1,19 @@
-#ifndef VEC_HPP
-#define VEC_HPP
+#ifndef POS_HPP
+#define POS_HPP
 
 #include <array>
-#include <stdexcept>
-#include <complex>
 
 /*
     Dim vector with Tp elements
 */
 template <typename Tp, std::size_t Dim>
-class Vec
+class Pos
 {
 public:
-    constexpr Vec() = default;
+    constexpr Pos() = default;
 
     template <typename... Args>
-    constexpr Vec(Args... args){
+    constexpr Pos(Args... args){
         static_assert(sizeof...(args) == Dim, "Number of arguments must match the dimension");
         _initialize<0>(args...);
     }
@@ -34,60 +32,76 @@ public:
         return data[index];
     }
 
-    constexpr Vec<Tp,Dim> operator+(const Vec<Tp,Dim>& other) const{
-        Vec<Tp,Dim> product;
+    constexpr Pos<Tp,Dim> operator+(const Pos<Tp,Dim>& other) const{
+        Pos<Tp,Dim> result;
         for(std::size_t i = 0; i < Dim; i++){
-            product.data[i] = data[i] + other.data[i];
+            result.data[i] = data[i] + other.data[i];
         }
-        return product;
+        return result;
     }
 
-    constexpr Vec<Tp,Dim> operator-(const Vec<Tp,Dim>& other) const{
-        Vec<Tp,Dim> product;
+    constexpr Pos<Tp,Dim> operator-(const Pos<Tp,Dim>& other) const{
+        Pos<Tp,Dim> result;
         for(std::size_t i = 0; i < Dim; i++){
-            product.data[i] = data[i] - other.data[i];
+            result.data[i] = data[i] - other.data[i];
         }
-        return product;
+        return result;
     }
 
-    constexpr Vec<Tp,Dim> operator*(const Vec<Tp,Dim>& other) const{
-        Vec<Tp,Dim> product;
+    constexpr Pos<Tp,Dim> operator*(const Pos<Tp,Dim>& other) const{
+        Pos<Tp,Dim> result;
         for(std::size_t i = 0; i < Dim; i++){
-            product.data[i] = data[i] * other.data[i];
+            result.data[i] = data[i] * other.data[i];
         }
-        return product;
+        return result;
     }
 
-    constexpr Vec<Tp,Dim> operator/(const Vec<Tp,Dim>& other) const {
-        Vec<Tp,Dim> product;
+    constexpr Pos<Tp,Dim> operator*(const Tp& other) const {
+        Pos<Tp,Dim> result;
         for(std::size_t i = 0; i < Dim; i++){
-            product.data[i] = data[i] / other.data[i];
+            result.data[i] = data[i] * other;
         }
-        return product;
+        return result;
     }
 
-    constexpr Vec& operator+=(const Vec<Tp,Dim>& other){
+    constexpr Pos<Tp,Dim> operator/(const Pos<Tp,Dim>& other) const {
+        Pos<Tp,Dim> result;
+        for(std::size_t i = 0; i < Dim; i++){
+            result.data[i] = data[i] / other.data[i];
+        }
+        return result;
+    }
+
+    constexpr Pos<Tp,Dim> operator/(const Tp& other) const {
+        Pos<Tp,Dim> result;
+        for(std::size_t i = 0; i < Dim; i++){
+            result.data[i] = data[i] / other;
+        }
+        return result;
+    }
+
+    constexpr Pos& operator+=(const Pos<Tp,Dim>& other){
         for(std::size_t i = 0; i < Dim; i++){
             data[i] += other.data[i];
         }
         return *this;
     }
 
-    constexpr Vec& operator-=(const Vec<Tp,Dim>& other){
+    constexpr Pos& operator-=(const Pos<Tp,Dim>& other){
         for(std::size_t i = 0; i < Dim; i++){
             data[i] -= other.data[i];
         }
         return *this;
     }
 
-    constexpr Vec& operator*=(const Vec<Tp,Dim>& other){
+    constexpr Pos& operator*=(const Pos<Tp,Dim>& other){
         for(std::size_t i = 0; i < Dim; i++){
             data[i] *= other.data[i];
         }
         return *this;
     }
 
-    constexpr Vec& operator/=(const Vec<Tp,Dim>& other){
+    constexpr Pos& operator/=(const Pos<Tp,Dim>& other){
         for(std::size_t i = 0; i < Dim; i++){
             data[i] /= other.data[i];
         }
@@ -110,24 +124,4 @@ private:
     }
 };
 
-// real value vector
-template <std::size_t Dim>
-constexpr double inner_product(const Vec<double,Dim>& v1, const Vec<double,Dim>& v2){
-    double res;
-    for(std::size_t i = 0; i < Dim ; i++){
-        res += v1[i] * v2[i];
-    }
-    return res;
-}
-
-// complex value vector inner product
-template <std::size_t Dim>
-constexpr std::complex<double> inner_product(const Vec<std::complex<double>,Dim>& v1, const Vec<std::complex<double>,Dim>& v2){
-    std::complex<double> res;
-    for(std::size_t i = 0; i < Dim ; i++){
-        res += v1[i] * conj(v2[i]);
-    }
-    return res;
-}
-
-#endif
+#endif 
