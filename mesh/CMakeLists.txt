@@ -2,6 +2,8 @@ ADD_EXECUTABLE(
     test_mesh
     test_mesh.cpp
     mesh.cpp
+    ${PROJECT_SOURCE_DIR}/region/cuboid.cpp
+    ${PROJECT_SOURCE_DIR}/elements/nedelecp1.cpp
 )
 
 INCLUDE_DIRECTORIES (

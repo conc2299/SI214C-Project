@@ -18,7 +18,8 @@ class NedelecP1_2D
 {
 public:
     NedelecP1_2D() = default;
-    NedelecP1_2D(Pos2D p1, Pos2D p2, Pos2D p3);
+    // should be ordered in vertice idx
+    NedelecP1_2D(Pos2D p1, Pos2D p2, Pos2D p3, std::array<std::size_t,3> mapping);
 
     /*
         calculate the int-curl-dot values
