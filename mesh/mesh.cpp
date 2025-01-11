@@ -133,7 +133,7 @@ std::vector<Pos2D> Mesh2D::gen_vertices(const std::vector<Region2D*>& regions,co
 void Mesh2D::build_mesh_from_regions(const std::vector<Region2D*>& regions, const std::pair<std::size_t,std::size_t>& mesh_size)
 {
     std::vector<Pos2D>&& grid_vertices = gen_vertices(regions,mesh_size);
-    print_dt_result(grid_vertices);
+    // print_dt_result(grid_vertices);
 
     // build triangular mesh
     CDT::Triangulation<double> cdt;
@@ -179,6 +179,15 @@ void Mesh2D::build_mesh_from_regions(const std::vector<Region2D*>& regions, cons
             }
         }
         eparam.emplace_back(ep);
+    }
+}
+
+void Mesh2D::calc_stifness_mat()
+{
+    for(auto e:elements)
+    {
+        e.int_dot_self();
+        e.print_element_info();
     }
 }
 

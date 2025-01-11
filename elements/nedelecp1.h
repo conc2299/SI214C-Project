@@ -32,7 +32,7 @@ public:
     Mat3cd int_dot_self();
     Arr3cd int_dot(std::function<Vec2cd(const Pos2D&)> f);
     std::array<std::size_t,3> get_mapping();
-    
+    void print_element_info();
 private:
     /*
         Triangle Domain
@@ -41,9 +41,9 @@ private:
         p1p3 : phi3
     */
     std::array<Pos2D,3> domain;
-
     // maps the local dof to global dof
     std::array<std::size_t,3> dof_mapping;
+    Mat2d jacobian;
 };
 
 #endif

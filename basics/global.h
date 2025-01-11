@@ -9,10 +9,13 @@
 using Pos2D = Eigen::Array2d;
 using Vec2D = Eigen::Array2d;
 using Mat3cd = Eigen::Matrix3cd; 
+using Mat2cd = Eigen::Matrix2cd; 
+using Mat2d = Eigen::Matrix2d; 
 
 using Arr3cd = Eigen::Array3cd;
-using Vec3cd = Eigen::Array3cd;
-using Vec2cd = Eigen::Array2cd;
+using Arr22cd = Eigen::Array22cd;
+using Vec3cd = Eigen::Vector3cd;
+using Vec2cd = Eigen::Vector2cd;
 
 using Complex = std::complex<double>;
 
