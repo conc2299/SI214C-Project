@@ -94,3 +94,12 @@ EParams Cuboid2D::get_eparams() const
 {
     return EParams{permitivity,permeability};
 }
+
+// add w set and read
+void Cuboid2D::set_frequency(double omega) {
+    this->omega = omega;  
+}
+
+double Cuboid2D::get_frequency() const {
+    return this->omega;   
+}

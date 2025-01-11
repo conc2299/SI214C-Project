@@ -182,14 +182,100 @@ void Mesh2D::build_mesh_from_regions(const std::vector<Region2D*>& regions, cons
     }
 }
 
-void Mesh2D::calc_stifness_mat()
-{
-    for(auto e:elements)
-    {
-        e.int_dot_self();
-        e.print_element_info();
+
+
+
+
+
+// void Mesh2D::calc_stifness_mat()
+// {
+//     for(auto e:elements)
+//     {
+//         e.int_dot_self();
+//         e.print_element_info();
+//     }
+// }
+
+
+void Mesh2D::calc_stiffness_mat() {
+    // initial
+    std::size_t global_dof_num = dof_coeff.size();
+    Eigen::SparseMatrix<std::complex<double>> global_matrix(global_dof_num, global_dof_num);
+
+
+    for (const auto& element : elements) {
+
+        std::array<std::size_t, 3> dof_mapping = element.get_mapping();
+
+
+        Mat3cd local_A = element.int_dot_self();       //  A
+        Mat3cd local_B = element.int_curl_dot_self();  //  B
+
+        Pos2D center = (element.get_vertex(0) + element.get_vertex(1) + element.get_vertex(2)) / 3.0;
+
+        EParams params;
+        for (const auto& region : regions) {
+            if (region->is_interior(center)) {
+                params = region->get_eparams();
+                break;
+            }
+        }
+        Complex mu = params.permeability;  // 获取 μ
+        Complex epsilon = params.permitivity;  // 获取 ε
+        double omega = 0.0;  
+        if (auto cuboid = dynamic_cast<const Cuboid2D*>(region)) {
+            omega = cuboid->get_frequency();  // ω
+        }
+
+
+        Mat3cd weighted_A = (1.0 / mu) * local_A;       // ~A
+        Mat3cd weighted_B = (-omega * omega * epsilon) * local_B;  // ~B
+        Mat3cd local_K = weighted_A + weighted_B;  // (~A) + (~B)
+
+        // map
+        for (std::size_t i = 0; i < 3; ++i) {
+            for (std::size_t j = 0; j < 3; ++j) {
+                global_matrix.coeffRef(dof_mapping[i], dof_mapping[j]) += local_K(i, j);
+            }
+        }
     }
+
+    std::cout << "Global stiffness matrix assembled." << std::endl;
 }
+
+
+
+void Mesh2D::calc_rhs(std::function<Vec2cd(const Pos2D&)> f) {
+    
+    
+    Eigen::VectorXcd rhs(dof_coeff.size());
+    rhs.setZero();  
+
+
+    for (const auto& element : elements) {
+        
+        std::array<std::size_t, 3> dof_mapping = element.get_mapping();
+
+        Eigen::Vector3cd local_rhs = Eigen::Vector3cd::Zero();  // 局部向量
+        for (std::size_t i = 0; i < 3; ++i) {
+
+            Pos2D center = (element.get_vertex(0) + element.get_vertex(1) + element.get_vertex(2)) / 3.0;
+
+            Vec2cd f_value = f(center);
+
+            local_rhs[i] += f_value[0];  
+        }
+
+        for (std::size_t i = 0; i < 3; ++i) {
+            rhs[dof_mapping[i]] += local_rhs[i];
+        }
+    }
+
+    std::cout << "Right-hand side vector (RHS): " << rhs.transpose() << std::endl;
+
+}
+
+
 
 void Mesh2D::clear()
 {

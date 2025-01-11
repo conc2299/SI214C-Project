@@ -16,6 +16,9 @@ public:
     std::optional<Pos2D> get_intersection(const Pos2D& p1, const Pos2D& p2) const;
     std::vector<Pos2D> get_vertices() const;
     EParams get_eparams() const;
+
+    void set_frequency(double omega);  // 设置 ω
+    double get_frequency() const;  
 private:
     Pos2D corner1;
     Pos2D corner2;
