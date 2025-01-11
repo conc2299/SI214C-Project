@@ -38,7 +38,7 @@ def visualize_electromagnetic_field(field_matrix, dx=1, dy=1):
     
     # 1. 绘制场强度的热图
     im1 = ax1.pcolormesh(X, Y, magnitude, shading='auto', cmap='hot')
-    ax1.set_title('电场强度')
+    ax1.set_title('Electric Field Magnitude')
     ax1.set_xlabel('x')
     ax1.set_ylabel('y')
     ax1.set_aspect('equal')
@@ -46,7 +46,7 @@ def visualize_electromagnetic_field(field_matrix, dx=1, dy=1):
     
     # 2. 绘制相位图
     im2 = ax2.pcolormesh(X, Y, phase, shading='auto', cmap='hsv')
-    ax2.set_title('相位分布')
+    ax2.set_title('Phase Distribution')
     ax2.set_xlabel('x')
     ax2.set_ylabel('y')
     ax2.set_aspect('equal')
@@ -63,7 +63,7 @@ def visualize_electromagnetic_field(field_matrix, dx=1, dy=1):
                          cmap='viridis',
                          linewidth=lw,
                          arrowsize=1.5)
-    ax3.set_title('电场线')
+    ax3.set_title('Electric Field Lines')
     ax3.set_xlabel('x')
     ax3.set_ylabel('y')
     ax3.set_aspect('equal')
@@ -73,11 +73,27 @@ def visualize_electromagnetic_field(field_matrix, dx=1, dy=1):
     plt.show()
 
 if __name__ == "__main__":
-    # 尝试从文件加载场数据，如果不存在则创建示例数据
     try:
-        field_matrix = np.loadtxt("field_matrix.txt", dtype=complex)
-    except:
-        # 创建示例电磁场数据：点电荷和驻波干涉
+        # 读取文件
+        with open("field_matrix.txt", "r") as f:
+            # 读取矩阵维度
+            ny, nx = map(int, f.readline().split())
+            # 读取复数数据
+            data = []
+            for line in f:
+                real, imag = map(float, line.split())
+                data.append(complex(real, imag))
+            
+            # 重塑为二维数组
+            field_matrix = np.array(data).reshape(ny, nx)
+            print("Successfully loaded field_matrix.txt")
+            print("Matrix shape:", field_matrix.shape)
+            
+    except Exception as e:
+        print(f"Error loading field_matrix.txt: {e}")
+        print("Creating example data instead...")
+        
+        # 创建示例电磁场数据（保持原有的示例数据生成代码）
         nx, ny = 100, 100
         x = np.linspace(-5, 5, nx)
         y = np.linspace(-5, 5, ny)
