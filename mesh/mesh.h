@@ -12,7 +12,10 @@ class Mesh2D
 public:
     Mesh2D(Pos2D ll, Pos2D ur): ll(ll), ur(ur){};
     void build_mesh_from_regions(const std::vector<Region2D*>& regions, const std::pair<std::size_t,std::size_t>& mesh_size);
-    void calc_stifness_mat();
+
+    void calc_stiffness_mat();
+    void calc_rhs(std::function<Vec2cd(const Pos2D&)> f);
+
     void clear();
 private:
     std::vector<Pos2D> gen_vertices(const std::vector<Region2D*>& regions,const std::pair<std::size_t,std::size_t>& mesh_size) const;

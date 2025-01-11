@@ -1,4 +1,6 @@
 #include "nedelecp1.h"
+#include "quadrature/gaussian.hpp"
+
 #include <iostream>
 
 NedelecP1_2D::NedelecP1_2D(Pos2D p1, Pos2D p2, Pos2D p3,std::array<std::size_t,3> mapping)
@@ -12,18 +14,28 @@ NedelecP1_2D::NedelecP1_2D(Pos2D p1, Pos2D p2, Pos2D p3,std::array<std::size_t,3
     jacobian = Mat2d{{v1[0],v2[0]},{v1[1],v2[1]}};
 }
 
-Mat3cd NedelecP1_2D::int_curl_dot_self()
-{
-    double abs_det_jac = abs(jacobian.determinant());
-
-}
-
 /*
     three shape function
     phi1(x,y) = (1-y,x)
     phi2(x,y) = (-y,x)
     phi3(x,y) = (y,1-x)
 */
+Mat3cd NedelecP1_2D::int_curl_dot_self()
+{
+    double abs_det_jac = abs(jacobian.determinant());
+    Mat3cd result;
+    result(0,0) = 2 / abs_det_jac;
+    result(0,1) = 2 / abs_det_jac;
+    result(1,0) = result(0,1);
+    result(0,2) = -2 / abs_det_jac;
+    result(2,0) = result(0,2);
+    result(1,1) = 2 / abs_det_jac;
+    result(1,2) = -2 / abs_det_jac;
+    result(2,1) = result(1,2);
+    result(2,2) = 2 / abs_det_jac;
+    return result;
+}
+
 Mat3cd NedelecP1_2D::int_dot_self()
 {
     double abs_det_jac = abs(jacobian.determinant());
@@ -56,6 +68,7 @@ Mat3cd NedelecP1_2D::int_dot_self()
     return result;
 }
 
+// using gaussian quadrature
 Arr3cd NedelecP1_2D::int_dot(std::function<Vec2cd(const Pos2D&)> f)
 {
 
