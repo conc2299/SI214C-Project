@@ -1,0 +1,17 @@
+# 生成数据示例C++ main程序
+g++ -std=c++11  main.cpp && ./a.out
+
+# 生成 field_matrix.txt 放在Visualization目录下
+# field_matrix.txt 格式：
+# 10 10 表示矩阵维度为10x10
+# 1.0 2.0 表示复数1+2i
+# 3.0 4.0 表示复数3+4i
+# ...
+
+# 可视化数据示例python程序
+python3 visualization.py
+
+# 可视化结果
+# 1. 电场强度
+# 2. 相位分布
+# 3. 电场线
