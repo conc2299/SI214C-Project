@@ -24,14 +24,14 @@ public:
     /*
         calculate the int-curl-dot values
     */
-    Mat3cd int_curl_dot_self();
+    Mat3cd int_curl_dot_self() const;
 
     /*
         calculate the int-dot values
     */
-    Mat3cd int_dot_self();
-    Arr3cd int_dot(std::function<Vec2cd(const Pos2D&)> f);
-    std::array<std::size_t,3> get_mapping();
+    Mat3cd int_dot_self() const;
+    Arr3cd int_dot(std::function<Vec2cd(const Pos2D&)> f) const;
+    std::array<std::size_t,3> get_mapping() const;
     void print_element_info();
 private:
     /*

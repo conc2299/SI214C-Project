@@ -1,6 +1,7 @@
 #include "nedelecp1.h"
 #include "quadrature/gaussian.hpp"
 
+#include <algorithm>
 #include <iostream>
 
 NedelecP1_2D::NedelecP1_2D(Pos2D p1, Pos2D p2, Pos2D p3,std::array<std::size_t,3> mapping)
@@ -20,7 +21,7 @@ NedelecP1_2D::NedelecP1_2D(Pos2D p1, Pos2D p2, Pos2D p3,std::array<std::size_t,3
     phi2(x,y) = (-y,x)
     phi3(x,y) = (y,1-x)
 */
-Mat3cd NedelecP1_2D::int_curl_dot_self()
+Mat3cd NedelecP1_2D::int_curl_dot_self() const
 {
     double abs_det_jac = abs(jacobian.determinant());
     Mat3cd result;
@@ -36,7 +37,7 @@ Mat3cd NedelecP1_2D::int_curl_dot_self()
     return result;
 }
 
-Mat3cd NedelecP1_2D::int_dot_self()
+Mat3cd NedelecP1_2D::int_dot_self() const
 {
     double abs_det_jac = abs(jacobian.determinant());
     Mat2d inv_transpose_jac = jacobian.inverse().transpose();
@@ -69,12 +70,46 @@ Mat3cd NedelecP1_2D::int_dot_self()
 }
 
 // using gaussian quadrature
-Arr3cd NedelecP1_2D::int_dot(std::function<Vec2cd(const Pos2D&)> f)
+Arr3cd NedelecP1_2D::int_dot(std::function<Vec2cd(const Pos2D&)> f) const
 {
+    auto points_and_weights = gaussian_points<7>();
+    auto points = points_and_weights.first;
+    auto weights = points_and_weights.second;
 
+    Arr3cd result;
+    result << 0,0,0;
+    double abs_det_jac = abs(jacobian.determinant());
+    Mat2d inv_transpose_jac = jacobian.inverse().transpose();
+
+    Eigen::Matrix<Complex,2,7> f_x;
+    Eigen::Matrix<Complex,2,7> phi1_x;
+    Eigen::Matrix<Complex,2,7> phi2_x;
+    Eigen::Matrix<Complex,2,7> phi3_x;
+    Eigen::Matrix<Complex,2,7> arr_weight;
+
+    // initialize array
+    for(std::size_t i = 0; i < 7; i++){
+        const Pos2D& p = points[i];
+        Pos2D p_f = Pos2D{domain[0](0) + jacobian(0,0)*p(0) + jacobian(0,1) * p(1),domain[0](1) + jacobian(1,0)*p(0) + jacobian(1,1) * p(1)};
+        Vec2cd f_xi = f(p_f);
+        f_x(0,i) = f_xi(0);
+        f_x(1,i) = f_xi(1);
+        phi1_x(0,i) = 1-p(1);
+        phi1_x(1,i) = p(0);
+        phi2_x(0,i) = -p(1);
+        phi2_x(1,i) = p(0);
+        phi3_x(0,i) = p(1);
+        phi3_x(1,i) = 1-p(0);
+        arr_weight(0,i) = weights[i];
+        arr_weight(1,i) = weights[i];
+    }
+    result(0) = inv_transpose_jac.cwiseProduct(f_x.cwiseProduct(arr_weight) * phi1_x.transpose()).sum();
+    result(1) = inv_transpose_jac.cwiseProduct(f_x.cwiseProduct(arr_weight) * phi2_x.transpose()).sum();
+    result(2) = inv_transpose_jac.cwiseProduct(f_x.cwiseProduct(arr_weight) * phi3_x.transpose()).sum();
+    return result * abs_det_jac / 2;
 }
 
-std::array<std::size_t,3> NedelecP1_2D::get_mapping()
+std::array<std::size_t,3> NedelecP1_2D::get_mapping() const
 {
     return dof_mapping;
 }

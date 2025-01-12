@@ -70,7 +70,7 @@ def visualize_electromagnetic_field(field_matrix, dx=1, dy=1):
     plt.colorbar(strm.lines, ax=ax3)
     
     plt.tight_layout()
-    plt.show()
+    plt.savefig("./field.jpg")
 
 if __name__ == "__main__":
     try:

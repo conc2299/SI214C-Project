@@ -9,10 +9,6 @@ Note: all fields below are complex valued functions.(i.e. $\mathbb{R}^2\rightarr
 $$
     \Delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}}
 $$
-In one direction (e.g. $x$)
-$$
-    \Delta E_x+\omega^2\tilde{\mu}\tilde{\epsilon}E_x = j\omega\tilde{\mu}J_{\alpha x}
-$$
 weak form
 $$
 \begin{aligned}
@@ -25,6 +21,25 @@ $$
 $$
     \Delta \overrightarrow{E}+\omega^2\tilde{\mu}\tilde{\epsilon}\overrightarrow{E} = j\omega\tilde{\mu}\overrightarrow{J_{\alpha}} + \nabla(\frac{\rho}{\epsilon})
 $$
+
+## How to run the code
+### Build the project
+Please run
+```
+    mkdir build
+    cmake ..
+    cd build/mesh
+    make
+```
+Then goto the project top folder and run
+```
+    ./build/mesh/test_mesh > ./Visualization/a.txt
+```
+Then run
+```
+    python segement_visualization
+```
+to see the result.
 
 # TODO
 1. Tetrahedra element in 3D space. Maybe we can solve in simple 2D space first
@@ -47,4 +62,3 @@ $$
     - Visualization (QiZhang He)
     - Solver (Zhiyuan Cheng)
     - Problem formulation(Yikai Liu)
-    - add nothing

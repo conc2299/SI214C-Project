@@ -7,26 +7,32 @@
     implement gaussian quadrature
 */
 template <std::size_t N>
-inline constexpr std::pair<std::array<Pos2D,N>,Eigen::Array<double,1,N>> gaussian_points()
+inline std::pair<std::array<Pos2D,N>,std::array<double,N>> gaussian_points()
 {
     static_assert(false,"Not implemented");
 }
 
-inline constexpr std::pair<std::array<Pos2D,7>,Eigen::Array<double,1,7>> gaussian_points()
+template <>
+inline std::pair<std::array<Pos2D,7>,std::array<double,7>> gaussian_points()
 {
     return std::make_pair(
         std::array{
-            Pos2D{},
-            Pos2D{},
-            Pos2D{},
-            Pos2D{},
-            Pos2D{},
-            Pos2D{},
-            Pos2D{},
-            Pos2D{},
+            Pos2D{1.0f/3,1.0f/3},
+            Pos2D{0.797426985353087,0.101286507323456},
+            Pos2D{0.101286507323456,0.797426985353087},
+            Pos2D{0.101286507323456,0.101286507323456},
+            Pos2D{0.470142064105115,0.059715871789770},
+            Pos2D{0.059715871789770,0.470142064105115},
+            Pos2D{0.470142064105115,0.470142064105115}
         },
-        Eigen::Array{
-
+        std::array{
+            0.225000000000000 / 2,
+            0.125939180544827 / 2,
+            0.125939180544827 / 2,
+            0.125939180544827 / 2,
+            0.132394152788506 / 2,
+            0.132394152788506 / 2,
+            0.132394152788506 / 2
         }
     );
 }

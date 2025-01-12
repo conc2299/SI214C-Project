@@ -7,7 +7,6 @@
 #include "pos.hpp"
 
 using Pos2D = Eigen::Array2d;
-using Vec2D = Eigen::Array2d;
 using Mat3cd = Eigen::Matrix3cd; 
 using Mat2cd = Eigen::Matrix2cd; 
 using Mat2d = Eigen::Matrix2d; 
